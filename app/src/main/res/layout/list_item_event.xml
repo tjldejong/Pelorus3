@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="eventItemViewModel"
+            type="nl.soft.pelorus.pelorus3.ui.mainmenu.events.EventFragmentViewModel"/>
+        <variable
+            name="event"
+            type="nl.soft.pelorus.pelorus3.entity.Event"/>
+    </data>
+    <RelativeLayout
+        android:id="@+id/relative_layout_event_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/selector_row"
+        android:onClick="@{(view)->eventItemViewModel.onItemClick(view,event)}"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/text_view_event_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:text="@{event.name}"
+            tools:text="Event Title"
+            />
+    </RelativeLayout>
+</layout>

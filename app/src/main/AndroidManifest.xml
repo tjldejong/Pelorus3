@@ -1,0 +1,27 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="nl.soft.pelorus.pelorus3">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <application
+        android:name=".PelorusApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label= "@string/app_name"
+        android:theme="@style/PelorusTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBbMMEpJNQ5dE8h5IFG5br6_XzhSLBvEoI" />
+        <activity android:name=".ui.login.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.mainmenu.MainMenuActivity" android:label="Join Event" />
+        <activity android:name=".ui.boats.BoatsActivity"/>
+        <activity android:name=".ui.boats.manage.ManageBoatActivity" />
+        <activity android:name=".ui.race.RaceActivity" android:windowSoftInputMode="stateUnchanged" />
+    </application>
+</manifest>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "139978490047",
+    "project_id": "firebase-pelorus3"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139978490047:android:21e8901bd3d86ca1",
+        "android_client_info": {
+          "package_name": "nl.soft.pelorus.pelorus3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139978490047-llannemj8irp6khmvjl9nc897mjrl9k1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.soft.pelorus.pelorus3",
+            "certificate_hash": "cebf99d25b31bae02750121f8399a133c6f25f57"
+          }
+        },
+        {
+          "client_id": "139978490047-0cvsbod7fmqh497irnjb7dl7ibjhq08t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMc9lgnd_ecUP2lamCV9ZXNHFsZy7uBl0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

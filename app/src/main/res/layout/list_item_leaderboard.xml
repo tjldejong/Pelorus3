@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModelListItem"
+            type="nl.soft.pelorus.pelorus3.ui.race.leaderboard.LeaderboardListItemViewModel"/>
+    </data>
+
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_boat_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/selector_row"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/text_view_boat_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:text="@{viewModelListItem.name}"
+            tools:text="Boat name"
+            />
+
+        <TextView
+            android:id="@+id/text_view_corrected_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@{viewModelListItem.time}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            tools:text="CorrectedTime" />
+    </RelativeLayout>
+</layout>

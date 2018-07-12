@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+    <data>
+        <variable
+            name="viewModelDashbord"
+            type="nl.soft.pelorus.pelorus3.ui.race.dashboard.DashboardViewModel"/>
+    </data>
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/BackgroundTable">
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1px"
+            android:weightSum="2"
+            >
+            <TextView
+                android:id="@+id/textViewLatLbl"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:text="Latitude" />
+            <TextView
+                android:id="@+id/textViewLngLbl"
+                android:layout_width="0dip"
+                android:layout_column="2"
+                android:layout_weight="1"
+                android:text="Longitude" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1px"
+            android:weightSum="2"
+            >
+            <TextView
+                android:id="@+id/textViewLat"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:text="@{viewModelDashbord.lat}"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/textViewLng"
+                android:layout_width="0dip"
+                android:layout_column="2"
+                android:layout_weight="1"
+                android:text="@{viewModelDashbord.lng}"
+                android:textSize="20sp" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1px"
+            android:weightSum="2">
+            <TextView
+                android:id="@+id/textViewTimeLbl"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:text="Time" />
+            <TextView
+                android:id="@+id/textViewWindLbl"
+                android:layout_width="0dip"
+                android:layout_column="2"
+                android:layout_weight="1"
+                android:text="Wind" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1px">
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:text="@{viewModelDashbord.time}"
+                android:textSize="40sp" />
+
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1px"
+            android:weightSum="2"
+            >
+            <TextView
+                android:id="@+id/textViewHeadingLbl"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:text="Heading"
+                />
+            <TextView
+                android:id="@+id/textViewSpeedLbl"
+                android:layout_width="0dip"
+                android:layout_column="2"
+                android:layout_weight="1"
+                android:text="Speed" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1px"
+            android:weightSum="2"
+            >
+            <TextView
+                android:id="@+id/textViewHeading"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:text="@{viewModelDashbord.bearing}"
+                android:textSize="50sp"
+                />
+            <TextView
+                android:id="@+id/textViewSpeed"
+                android:layout_width="0dip"
+                android:layout_column="2"
+                android:layout_weight="1"
+                android:text="@{viewModelDashbord.speed}"
+                android:textSize="50sp" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1px"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/textViewDTWLbl"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:text="DTW" />
+
+            <TextView
+                android:id="@+id/textViewVMGLbl"
+                android:layout_width="0dip"
+                android:layout_column="2"
+                android:layout_weight="1"
+                android:text="VMG" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/tableRow8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1px"
+            android:weightSum="2">
+            <TextView
+                android:id="@+id/textViewDTW"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:text="@{viewModelDashbord.dtw}"
+                android:textSize="50sp" />
+            <TextView
+                android:id="@+id/textViewVMG"
+                android:layout_width="0dip"
+                android:layout_column="2"
+                android:layout_weight="1"
+                android:text="@{viewModelDashbord.vmg}"
+                android:textSize="50sp" />
+        </TableRow>
+    </TableLayout>
+</layout>
