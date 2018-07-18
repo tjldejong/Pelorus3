@@ -186,8 +186,8 @@ public class RaceViewModel extends ViewModel implements PelorusComponent.Injecta
             if(goToMark==1 && laps ==1){
                 Toast.makeText(context, "Finished!", Toast.LENGTH_LONG).show();
 
-//                    Intent intent = new Intent(context, FinishActivity.class);
-//                    context.startActivity(intent);
+//                Intent intent = new Intent(context, FinishActivity.class);
+//                context.startActivity(intent);
             }
 
             Toast.makeText(context, "Mark rounded go to mark " + Integer.toString(goToMark), Toast.LENGTH_SHORT).show();

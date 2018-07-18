@@ -41,9 +41,8 @@ import nl.soft.pelorus.pelorus3.ui.race.RaceActivity;
  * Created by tobia on 10-8-2017.
  */
 
-public class MainMenuActivity extends AppCompatActivity implements LifecycleRegistryOwner {
+public class MainMenuActivity extends AppCompatActivity  {
 
-    private final LifecycleRegistry registry = new LifecycleRegistry(this);
     private FloatingActionButton floatingActionButtonEvent;
     MainMenuViewModel mainMenuViewModel;
     Toolbar toolbar;
@@ -102,8 +101,4 @@ public class MainMenuActivity extends AppCompatActivity implements LifecycleRegi
         return true;
     }
 
-    @Override
-    public LifecycleRegistry getLifecycle() {
-        return registry;
-    }
 }

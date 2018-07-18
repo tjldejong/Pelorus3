@@ -1,6 +1,7 @@
 package nl.soft.pelorus.pelorus3.repository;
 
 import android.arch.lifecycle.LiveData;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -50,7 +51,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     public UserRepositoryImpl(UserDatabase userDatabase, GoogleApi googleApi, MySQLDatabaseClient mySQLDatabaseClient,SharedPreferences sharedPreferences) {
         this.userDatabase = userDatabase;
-        this.googleApi =googleApi;
+        this.googleApi = googleApi;
         this.mySQLDatabaseClient = mySQLDatabaseClient;
         this.sharedPreferences = sharedPreferences;
     }
@@ -68,20 +69,31 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void addUser(final User user)  {
-        Completable.fromAction(()->userDatabase.userDao().addUser(user)).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
+
+        mySQLDatabaseClient.createUser(user).enqueue(new Callback<Integer>() {
             @Override
-            public void onSubscribe(Disposable d) {
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Completable.fromAction(()->userDatabase.userDao().addUser(user)).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i("Username insert local",user.getName());
+                        Log.i("Id insert local",user.getId());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("Error",e.toString());
+                    }
+                });
             }
 
             @Override
-            public void onComplete() {
-                Log.i("Username insert local",user.getName());
-                Log.i("Id insert local",user.getId());
-            }
+            public void onFailure(Call<Integer> call, Throwable t) {
 
-            @Override
-            public void onError(Throwable e) {
-                Log.i("Error",e.toString());
             }
         });
     }
@@ -108,6 +120,7 @@ public class UserRepositoryImpl implements UserRepository {
     public String getGoogleSignInIdToken(Intent data) {
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 
+        Log.i("Result",Boolean.toString(result.isSuccess()));
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
 
@@ -123,6 +136,7 @@ public class UserRepositoryImpl implements UserRepository {
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
                     Log.d("Error", t.getMessage());
+
                 }
             })).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
                 @Override
@@ -132,7 +146,7 @@ public class UserRepositoryImpl implements UserRepository {
 
                 @Override
                 public void onComplete() {
-                    Log.i("Token","uploaded");
+                    Log.i("sendToken","Completed");
                 }
 
                 @Override
@@ -152,7 +166,9 @@ public class UserRepositoryImpl implements UserRepository {
                             Log.i("log out",status.toString());
                         }
                     });
-            return "Signed out, show unauthenticated UI";
+
+
+            return null;
         }
     }
 
@@ -161,7 +177,6 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public String getGoogleSignInDisplayName(Intent data) {
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-        Log.i("result",result.toString());
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             return acct.getDisplayName();

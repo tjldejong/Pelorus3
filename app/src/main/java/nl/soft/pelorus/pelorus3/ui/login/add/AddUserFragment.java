@@ -1,7 +1,10 @@
 package nl.soft.pelorus.pelorus3.ui.login.add;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.SignInButton;
 
@@ -76,10 +80,22 @@ public class AddUserFragment extends LifecycleFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        addUserViewModel.setAccount(requestCode,resultCode,data,RC_SIGN_IN);
+        boolean unauthenticated;
 
-        Intent intent = new Intent(getActivity(), MainMenuActivity.class);
-        startActivity(intent);
+        unauthenticated = addUserViewModel.setAccount(requestCode, resultCode, data, RC_SIGN_IN);
+
+        if(unauthenticated){
+            CharSequence text = "Unauthenticated";
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(getActivity(), text, duration);
+            toast.show();
+        }
+        else {
+            Intent intent = new Intent(getActivity(), MainMenuActivity.class);
+            startActivity(intent);
+        }
+
     }
 
 

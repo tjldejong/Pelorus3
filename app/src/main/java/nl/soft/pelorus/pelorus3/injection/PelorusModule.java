@@ -1,8 +1,10 @@
 package nl.soft.pelorus.pelorus3.injection;
 
+import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +15,7 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -88,7 +91,19 @@ public class PelorusModule {
 
     @Provides
     @Singleton
-    GoogleApi providesGoogleApi(GoogleApiClient googleApiClient){
+    GoogleApi providesGoogleApi(GoogleApiClient googleApiClient, Context context){ //TODO: dit op de goede plek zetten
+        googleApiClient.registerConnectionFailedListener(connectionResult -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogTheme);
+            builder.setMessage("Please connect to the internet to use this app")
+                    .setTitle("No internet")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked OK button
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
         return new GoogleApiImpl(googleApiClient);
     }
 
@@ -112,6 +127,8 @@ public class PelorusModule {
                 .addApi(LocationServices.API)
                 .build();
     }
+
+
 
     @Provides
     @Singleton
@@ -144,7 +161,4 @@ public class PelorusModule {
     SharedPreferences sharedPreferences(Context context){
         return context.getSharedPreferences("MyPrefFile",0);
     }
-
-
-
 }

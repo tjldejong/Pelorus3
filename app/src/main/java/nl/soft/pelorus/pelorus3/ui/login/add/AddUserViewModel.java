@@ -46,13 +46,18 @@ public class AddUserViewModel extends ViewModel implements PelorusComponent.Inje
         return  userRepository.getGoogleSignInIntent();
     }
 
-    public void setAccount(int requestCode, int resultCode, Intent data,int RC_SIGN_IN){
-        if (requestCode == RC_SIGN_IN) {
+    public boolean setAccount(int requestCode, int resultCode, Intent data,int RC_SIGN_IN){
+        Boolean unauthenticated = false;
+        if (requestCode == RC_SIGN_IN) {  // TODO: of dit if statement iets toevoegd
             userName = userRepository.getGoogleSignInIdToken(data);
+            if (userName == null){
+                unauthenticated = true;
+            }
         } else {
             // TODO: Signed out, show unauthenticated UI.
         }
 
+        return unauthenticated;
     }
 
 
