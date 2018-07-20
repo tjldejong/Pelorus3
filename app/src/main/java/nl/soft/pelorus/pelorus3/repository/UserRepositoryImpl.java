@@ -68,34 +68,51 @@ public class UserRepositoryImpl implements UserRepository {
 
 
     @Override
-    public void addUser(final User user)  {
+    public boolean addUser(Intent data)  {
+        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 
-        mySQLDatabaseClient.createUser(user).enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                Completable.fromAction(()->userDatabase.userDao().addUser(user)).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
+        if (result.isSuccess()) {
+            GoogleSignInAccount acct = result.getSignInAccount();
+            sharedPreferences.edit().putString("userId",acct.getId()).apply();
+            User user = new User(acct.getId(),acct.getDisplayName(),acct.getPhotoUrl().toString());
+            mySQLDatabaseClient.createUser(user)
+                    .enqueue(new Callback<Integer>() {
+                        @Override
+                        public void onResponse(Call<Integer> call, Response<Integer> response) {
+                            addUserLocal(user);
+                        }
+                        @Override
+                        public void onFailure(Call<Integer> call, Throwable t) {
+                            //TODO: no connection to database
+                        }
+                    });
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    private void addUserLocal(User user){
+        Completable.fromAction(()->userDatabase.userDao().addUser(user))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
                     @Override
                     public void onSubscribe(Disposable d) {
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.i("Username insert local",user.getName());
-                        Log.i("Id insert local",user.getId());
+                        Log.i("Username insert local", user.getName());
+                        Log.i("Id insert local", user.getId());
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("Error",e.toString());
+                        Log.i("Error", e.toString());
                     }
                 });
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
-
-            }
-        });
     }
 
     @Override
@@ -116,61 +133,61 @@ public class UserRepositoryImpl implements UserRepository {
         return Auth.GoogleSignInApi.getSignInIntent(googleApi.getGoogleApiClient());
     }
 
-    @Override
-    public String getGoogleSignInIdToken(Intent data) {
-        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-
-        Log.i("Result",Boolean.toString(result.isSuccess()));
-        if (result.isSuccess()) {
-            GoogleSignInAccount acct = result.getSignInAccount();
-
-            Completable.fromAction(()-> mySQLDatabaseClient.sendToken(acct.getIdToken()).enqueue(new Callback<String>() {
-                @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Log.i("uri",acct.getPhotoUrl().toString());
-                    sharedPreferences.edit().putString("userId",response.body()).apply();
-                    User user = new User(response.body(),acct.getDisplayName(),acct.getPhotoUrl().toString());
-                    addUser(user);
-                }
-
-                @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    Log.d("Error", t.getMessage());
-
-                }
-            })).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
-                @Override
-                public void onSubscribe(Disposable d) {
-
-                }
-
-                @Override
-                public void onComplete() {
-                    Log.i("sendToken","Completed");
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    Log.i("Error",e.toString());
-
-                }
-            });
-
-            return acct.getDisplayName();
-        } else {
-            // TODO: Signed out, show unauthenticated UI.
-            Auth.GoogleSignInApi.signOut(googleApi.getGoogleApiClient()).setResultCallback(
-                    new ResultCallback<Status>() {
-                        @Override
-                        public void onResult(Status status) {
-                            Log.i("log out",status.toString());
-                        }
-                    });
-
-
-            return null;
-        }
-    }
+//    @Override
+//    public String getGoogleSignInIdToken(Intent data) {
+//        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+//
+//        Log.i("GoogleSignInResult",Boolean.toString(result.isSuccess()));
+//        if (result.isSuccess()) {
+//            GoogleSignInAccount acct = result.getSignInAccount();
+//
+//            Completable.fromAction(()-> mySQLDatabaseClient.sendToken(acct.getIdToken()).enqueue(new Callback<String>() {
+//                @Override
+//                public void onResponse(Call<String> call, Response<String> response) {
+//                    Log.i("uri",acct.getPhotoUrl().toString());
+//                    sharedPreferences.edit().putString("userId",response.body()).apply();
+//                    User user = new User(response.body(),acct.getDisplayName(),acct.getPhotoUrl().toString());
+//                    addUser(user);
+//                }
+//
+//                @Override
+//                public void onFailure(Call<String> call, Throwable t) {
+//                    Log.d("Error", t.getMessage());
+//
+//                }
+//            })).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new CompletableObserver() {
+//                @Override
+//                public void onSubscribe(Disposable d) {
+//
+//                }
+//
+//                @Override
+//                public void onComplete() {
+//                    Log.i("sendToken","Completed");
+//                }
+//
+//                @Override
+//                public void onError(Throwable e) {
+//                    Log.i("Error",e.toString());
+//
+//                }
+//            });
+//
+//            return acct.getDisplayName();
+//        } else {
+//            // TODO: Signed out, show unauthenticated UI.
+//            Auth.GoogleSignInApi.signOut(googleApi.getGoogleApiClient()).setResultCallback(
+//                    new ResultCallback<Status>() {
+//                        @Override
+//                        public void onResult(Status status) {
+//                            Log.i("log out",status.toString());
+//                        }
+//                    });
+//
+//
+//            return null;
+//        }
+//    }
 
 
 

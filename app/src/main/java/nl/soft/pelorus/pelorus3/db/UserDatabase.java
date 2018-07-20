@@ -17,7 +17,7 @@ import nl.soft.pelorus.pelorus3.entity.User;
 /**
  * Created by tobia on 3-8-2017.
  */
-@Database(entities = {User.class,Event.class, Boat.class, Location.class, Mark.class}, version = 40)
+@Database(entities = {User.class,Event.class, Boat.class, Location.class, Mark.class}, version = 42)
 public abstract class UserDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();

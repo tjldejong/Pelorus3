@@ -27,7 +27,7 @@ public class AddUserViewModel extends ViewModel implements PelorusComponent.Inje
     @Inject
     UserRepository userRepository;
 
-    private String userName = "";
+    public Boolean accountSet = false;
 
     @Override
     public void inject(PelorusComponent pelorusComponent) {
@@ -43,21 +43,11 @@ public class AddUserViewModel extends ViewModel implements PelorusComponent.Inje
     }
 
     public Intent getSignInIntent(){
-        return  userRepository.getGoogleSignInIntent();
+        return userRepository.getGoogleSignInIntent();
     }
 
-    public boolean setAccount(int requestCode, int resultCode, Intent data,int RC_SIGN_IN){
-        Boolean unauthenticated = false;
-        if (requestCode == RC_SIGN_IN) {  // TODO: of dit if statement iets toevoegd
-            userName = userRepository.getGoogleSignInIdToken(data);
-            if (userName == null){
-                unauthenticated = true;
-            }
-        } else {
-            // TODO: Signed out, show unauthenticated UI.
-        }
-
-        return unauthenticated;
+    public void setAccount(Intent data){
+        accountSet = userRepository.addUser(data);
     }
 
 

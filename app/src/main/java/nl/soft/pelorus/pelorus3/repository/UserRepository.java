@@ -22,7 +22,7 @@ public interface UserRepository {
 
     void disconnect();
 
-    void addUser(User user);
+    boolean addUser(Intent data);
 
     LiveData<User> getUser(String id);
 
@@ -30,7 +30,7 @@ public interface UserRepository {
 
     String getGoogleSignInDisplayName(Intent data);
 
-    String getGoogleSignInIdToken(Intent data);
+//    String getGoogleSignInIdToken(Intent data);
 
     LiveData<User> getCurrentUser();
 

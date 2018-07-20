@@ -91,19 +91,7 @@ public class PelorusModule {
 
     @Provides
     @Singleton
-    GoogleApi providesGoogleApi(GoogleApiClient googleApiClient, Context context){ //TODO: dit op de goede plek zetten
-        googleApiClient.registerConnectionFailedListener(connectionResult -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogTheme);
-            builder.setMessage("Please connect to the internet to use this app")
-                    .setTitle("No internet")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // User clicked OK button
-                        }
-                    });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        });
+    GoogleApi providesGoogleApi(GoogleApiClient googleApiClient){
         return new GoogleApiImpl(googleApiClient);
     }
 
